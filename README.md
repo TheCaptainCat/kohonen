@@ -26,4 +26,4 @@ gagnant.
 
 ## Question 2
 
-[GIF](img/giphy.gif)
+![GIF](img/giphy.gif)
