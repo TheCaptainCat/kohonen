@@ -15,6 +15,8 @@ from __future__ import division
 import matplotlib.pyplot as plt
 # Librairie de calcul matriciel
 import numpy
+import gzip
+import pickle
 
 
 # Pour lire les données MNIST
@@ -63,9 +65,8 @@ class Neuron:
         @param x: entrée du neurone
         @type x: numpy array
         '''
-        exp = numpy.exp(-(((self.posx - posxbmu) ** 2) + ((self.posy - posybmu) ** 2)) / (2 * (sigma ** 2)))
-        self.weights[0] += eta * exp * (x[0] - self.weights[0])
-        self.weights[1] += eta * exp * (x[1] - self.weights[1])
+        exp = -((numpy.sqrt((self.posx - posxbmu)**2 + (self.posy - posybmu)**2))/2*(sigma**2))
+        self.weights[:] += eta*numpy.exp(exp)*(x-self.weights)
 
 
 class SOM:
@@ -207,7 +208,7 @@ class SOM:
 # -----------------------------------------------------------------------------
 if __name__ == '__main__':
     # Création d'un réseau avec une entrée (2,1) et une carte (10,10) (TODO ATTENTION METTRE À JOUR LA TAILLE DE L'ENTRÉE POUR LES DONNÉES MNIST)
-    network = SOM((2, 1), (10, 10))
+    network = SOM((28, 28), (10, 10))
     # PARAMÈTRES DU RÉSEAU
     # Taux d'apprentissage
     ETA = 0.05
@@ -216,40 +217,40 @@ if __name__ == '__main__':
     # Nombre de pas de temps d'apprentissage
     N = 30000
     # Affichage interactif de l'évolution du réseau (TODO ATTENTION METTRE À FAUX POUR LES DONNÉES MNIST)
-    VERBOSE = True
+    VERBOSE = False
     # Nombre de pas de temps avant rafraissichement de l'affichage
     NAFFICHAGE = 1000
     # DONNÉES D'APPRENTISSAGE
     # Nombre de données à générer pour les ensembles 1, 2 et 3
-    nsamples = 1000
-    # Ensemble de données 1
-    samples = numpy.random.random((nsamples, 2, 1))
-    samples[:, 0, :] -= 1
-    # Ensemble de données 2
-    #  nsamples = 999
-    #  samples1 = -numpy.random.random((nsamples/3,2,1))
-    #  samples2 = numpy.random.random((nsamples/3,2,1))
-    #  samples2[:,0,:] -= 1
-    #  samples3 = numpy.random.random((nsamples/3,2,1))
-    #  samples3[:,1,:] -= 1
-    #  samples = numpy.concatenate((samples1,samples2,samples3))
-    # Ensemble de données 3
-    #  nsamples=1000
-    #  samples1 = numpy.random.random((nsamples/2,2,1))
-    #  samples1[:,0,:] -= 1
-    #  samples2 = numpy.random.random((nsamples/2,2,1))
-    #  samples2[:,1,:] -= 1
-    #  samples = numpy.concatenate((samples1,samples2))
-    # Affichage des données (TODO ATTENTION À COMMENTER POUR LES DONNÉES MNIST)
-    plt.figure()
-    plt.scatter(samples[:, 0, 0], samples[:, 1, 0])
-    plt.xlim(-1, 1)
-    plt.ylim(-1, 1)
-    plt.suptitle('Donnees apprentissage')
-    plt.show()
-    # Ensemble de données 4
-    #  nsamples = 70000
-    #  samples = pickle.load(gzip.open('mnist.pkl.gz'),encoding='latin1')
+    # -- Ensemble de données 1
+    # nsamples = 1000
+    # samples = numpy.random.random((nsamples, 2, 1))
+    # samples[:, 0, :] -= 1
+    # -- Ensemble de données 2
+    # nsamples = 999
+    # samples1 = -numpy.random.random((nsamples//3, 2, 1))
+    # samples2 = numpy.random.random((nsamples//3, 2, 1))
+    # samples2[:0:] -= 1
+    # samples3 = numpy.random.random((nsamples//3, 2, 1))
+    # samples3[:1:] -= 1
+    # samples = numpy.concatenate((samples1, samples2, samples3))
+    # -- Ensemble de données 3
+    # nsamples = 1000
+    # samples1 = numpy.random.random((nsamples//2, 2, 1))
+    # samples1[:0:] -= 1
+    # samples2 = numpy.random.random((nsamples//2, 2, 1))
+    # samples2[:1:] -= 1
+    # samples = numpy.concatenate((samples1, samples2))
+    # -- Affichage des données (TODO ATTENTION À COMMENTER POUR LES DONNÉES MNIST)
+    # plt.figure()
+    # plt.scatter(samples[:, 0, 0], samples[:, 1, 0])
+    # plt.xlim(-1, 1)
+    # plt.ylim(-1, 1)
+    # plt.suptitle('Donnees apprentissage')
+    # plt.show()
+    # -- Ensemble de données 4
+    nsamples = 70000
+    samples = pickle.load(gzip.open('../mnist.pkl.gz'),encoding='latin1')
 
     # SIMULATION
     # Affichage des poids du réseau
