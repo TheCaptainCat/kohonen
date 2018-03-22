@@ -53,10 +53,11 @@ def learn(self, eta, sigma, posxbmu, posybmu, x):
 
 ![GIF](img/giphy.gif)
 
-##Question 3
+## Question 3
+
 > Influence des éléments suivants sur le fonctionnement de l’algorithme de Kohonen
 
-####Référence : η = 0.05 | σ = 1.4 | N = 30000 | 
+#### Référence : η = 0.05 | σ = 1.4 | N = 30000 | 
 
 ![GIF](img/giphy.gif)
 
@@ -66,6 +67,7 @@ Il s'agit de la vitesse à laquelle les neurones vont converger vers la solution
 neurones sera modifié et donc convergera plus vite et inversement.
 
 ![GIF](img/giphy2.gif)
+
 On voit bien qu'avec η = 0.25 les poids convergent bien plus vite.
 
 - largeur du voisinage σ
