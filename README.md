@@ -46,9 +46,8 @@ def compute(self, x):
 
 ```python
 def learn(self, eta, sigma, posxbmu, posybmu, x):
-    exp = numpy.exp(-(((self.posx - posxbmu) ** 2) + ((self.posy - posybmu) ** 2)) / (2 * (sigma ** 2)))
-    self.weights[0] += eta * exp * (x[0] - self.weights[0])
-    self.weights[1] += eta * exp * (x[1] - self.weights[1])
+    exp = -((numpy.sqrt((self.posx - posxbmu) ** 2 + (self.posy - posybmu) ** 2)) / 2 * (sigma ** 2))
+    self.weights[:] += eta*numpy.exp(exp)*(x-self.weights)
 ```
 
 ![GIF](img/giphy.gif)
@@ -57,7 +56,7 @@ def learn(self, eta, sigma, posxbmu, posybmu, x):
 
 > Influence des éléments suivants sur le fonctionnement de l’algorithme de Kohonen
 
-#### Référence : η = 0.05 | σ = 1.4 | N = 30000 | 
+#### Référence : η = 0.05 | σ = 1.4 | N = 30000 |
 
 ![GIF](img/giphy.gif)
 
@@ -69,6 +68,9 @@ neurones sera modifié et donc convergera plus vite et inversement.
 ![GIF](img/giphy2.gif)
 
 On voit bien qu'avec η = 0.25 les poids convergent bien plus vite.
+
+Nous avons constaté qu'un taux d'apprentissage élevé augmentait le risque d'une grille mal formée (en forme de noeud
+papillon) à cause d'une convergence trop rapide.
 
 - largeur du voisinage σ
 
@@ -87,13 +89,36 @@ On voit bien qu'après 30001 boucles, on se retrouve avec des neurones qui n'ont
 
 - nombre de pas de temps d’apprentissage N
 
+Le pas d'apprentissage influe sur le nombre d'itérations laissées à l'algorithme pour converger. Ici, on peut
+voir que 3000 itérations ne sont pas suffisantes pour que la grille soit bien placée.
+
+![N300](img/N3000.png)
+
+Un nombre N trop important n'apportera rien, puisque la grille sera déjà bien placée, les changements ne seront que
+mineurs.
+
+![N300](img/N10000.png)
+
+Ci-dessus, voici deux résultats pour 10000 itérations. On voit que dans certains cas, la convergence n'est pas
+parfaite. Cela dépend des valeurs aléatoires tirées.
 
 - taille de la carte
 
+Voici une grille de 5x5 neurones. La convergence est très rapide mais avec les paramètres de base, la grille ne
+couvre pas toutes les données. Il faut légèrement augmenter la largeur du voisinage.
 
-- jeu de données. En particulier cr´eez vos propres jeux de donn´ees avec des donn´ees non uniform´ement distribu´ees
-pour ´etudier la r´epartition des poids des neurones. Etudiez s´eparemment le jeu de donn´ees MNIST. ´
+![5x5](img/giphy4.gif)
 
-- la topologie de la carte (Bonus). En particulier au lieu d’utiliser une grille carr´ee, utilisez une grille hexagonale.
+Voici une grille de 15x15 neurones. Avec 10000 itérations, la convergence n'est pas terminée. La couverture est bien
+meilleure mais les chances de mauvaise convergence sont élevées car les neurones sont trop proches. Afin d'obtenir
+le résultat ci-dessous, nous avons dû essayer plusieurs fois, la grille étant souvent repliée sur elle-même.
 
+![5x5](img/giphy5.gif)
 
+- Jeu de données MNIST
+
+![MINST](img/minst.png)
+
+A partir de la base de données d'images, on entraîne une grille de 10x10 neurones. Au départ, chaque neurone a
+en entrée du bruit. A la fin, on peut distinctement identifier plusieurs chiffres. Les chiffres qui se ressemblent
+sont flous. Le réseau fait difficilement la différence entre les 3 et les 5, les 1 et les 7.

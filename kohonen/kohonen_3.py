@@ -65,7 +65,7 @@ class Neuron:
         @param x: entrée du neurone
         @type x: numpy array
         '''
-        exp = -((numpy.sqrt((self.posx - posxbmu)**2 + (self.posy - posybmu)**2))/2*(sigma**2))
+        exp = -((numpy.sqrt((self.posx - posxbmu) ** 2 + (self.posy - posybmu) ** 2)) / 2 * (sigma ** 2))
         self.weights[:] += eta*numpy.exp(exp)*(x-self.weights)
 
 
@@ -250,7 +250,7 @@ if __name__ == '__main__':
     # plt.show()
     # -- Ensemble de données 4
     nsamples = 70000
-    samples = pickle.load(gzip.open('../mnist.pkl.gz'),encoding='latin1')
+    samples = pickle.load(gzip.open('../mnist.pkl.gz'), encoding='latin1')
 
     # SIMULATION
     # Affichage des poids du réseau
