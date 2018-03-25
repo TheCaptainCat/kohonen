@@ -56,7 +56,9 @@ def learn(self, eta, sigma, posxbmu, posybmu, x):
 
 > Influence des éléments suivants sur le fonctionnement de l’algorithme de Kohonen
 
-#### Référence : η = 0.05 | σ = 1.4 | N = 30000 |
+L'ensemble des exemples ci-dessous sont réalisés avec le jeu de donnée n°1.
+
+#### Référence : η = 0.05 | σ = 1.4 | N = 30000 | carte 10x10
 
 ![GIF](img/giphy.gif)
 
@@ -67,7 +69,7 @@ neurones sera modifié et donc convergera plus vite et inversement.
 
 ![GIF](img/giphy2.gif)
 
-On voit bien qu'avec η = 0.25 les poids convergent bien plus vite.
+On voit bien qu'avec η = 0.25 les poids convergent bien plus vite, se qui confirme notre estimation à la question 1.
 
 Nous avons constaté qu'un taux d'apprentissage élevé augmentait le risque d'une grille mal formée (en forme de noeud
 papillon) à cause d'une convergence trop rapide.
@@ -79,13 +81,13 @@ Si on augmente σ, les noeuds seront plus éparpillés sur la grille.
 ![GIF](img/giphy3.gif)
 
 Avec σ = 10 on voit que dès le premier rafraichissement, une partie des neurones convergent vers la solution mais
-qu'une grande partie d'entre eux n'ont pas leur poids qui évolue et donc restent sur place.
+qu'une grande partie d'entre eux n'ont pas leur poids qui évolue et donc restent sur place. Ce paramètre a un influence sur le calcul de l'erreur de quantification vectorielle moyenne car il augmente la distance de poids de neurone.
 
 Après avoir relancé l'algorithme et attendu la fin du traitement, on peut obtenir une carte comme ci-dessous.
 
 ![Sigma](img/sigma.png)
 
-On voit bien qu'après 30001 boucles, on se retrouve avec des neurones qui n'ont pas beaucoup appris, voir pas du tout.
+On voit bien qu'après 30001 itérations, on se retrouve avec des neurones qui n'ont pas beaucoup appris, voir pas du tout.
 
 - nombre de pas de temps d’apprentissage N
 
